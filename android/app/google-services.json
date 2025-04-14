@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "508815627010",
+    "project_id": "capybox-2e1d1",
+    "storage_bucket": "capybox-2e1d1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508815627010:android:e2fcc02417fc8cefec681b",
+        "android_client_info": {
+          "package_name": "com.example.desafio_capyba"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFKtVAKXU3yuc5WdnzRi-eS1qiE7k_jPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

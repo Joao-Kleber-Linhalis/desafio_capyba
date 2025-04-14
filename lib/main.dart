@@ -1,9 +1,15 @@
 import 'package:desafio_capyba/core/routes/app_routes.dart';
 import 'package:desafio_capyba/features/presentation/splash_screen.dart';
+import 'package:desafio_capyba/firebase_options.dart';
 import 'package:desafio_capyba/shared/constants/app_colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
