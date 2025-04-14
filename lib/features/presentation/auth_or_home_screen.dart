@@ -1,3 +1,4 @@
+import 'package:desafio_capyba/features/auth/presentation/screens/auth_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:desafio_capyba/features/auth/provider/auth_provider.dart'
@@ -13,23 +14,27 @@ class AuthOrHomeScreen extends StatefulWidget {
 class _AuthOrHomeScreenState extends State<AuthOrHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: my_auth.AuthProvider.authStateChanges(),
-      builder: (context, snapshot) {
-        // Verifica o estado da autenticação
-        if (snapshot.connectionState == ConnectionState.active) {
-          // Se o usuário estiver autenticado
-          if (snapshot.hasData) {
-            //return const HomeScreen(); // Tela inicial ou navegação para o app
-          } else {
-            //return AuthScreen();
-          }
-        }
+    return Scaffold(
+      body: SafeArea(
+        child: StreamBuilder<User?>(
+          stream: my_auth.AuthProvider.authStateChanges(),
+          builder: (context, snapshot) {
+            // Verifica o estado da autenticação
+            if (snapshot.connectionState == ConnectionState.active) {
+              // Se o usuário estiver autenticado
+              if (snapshot.hasData) {
+                //return const HomeScreen(); // Tela inicial ou navegação para o app
+              } else {
+                return AuthScreen();
+              }
+            }
 
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
+      ),
     );
   }
 }
