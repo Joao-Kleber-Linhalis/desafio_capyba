@@ -3,7 +3,6 @@ import 'package:desafio_capyba/core/services/firebase_service.dart';
 abstract class BaseModel<T> {
   String get idModel;
   String get collection;
-  T empty();
   T fromMap(Map<String, dynamic>? map);
   Map<String, dynamic> toMap();
   T setIdModel(String id);
