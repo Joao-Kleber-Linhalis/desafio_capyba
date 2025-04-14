@@ -87,12 +87,12 @@ class FirebaseService {
   Future<Map<String, dynamic>> getById({
     required BaseModel data,
   }) async {
-    if (data.id.isEmpty || data.collection.isEmpty) {
+    if (data.idModel.isEmpty || data.collection.isEmpty) {
       return Future.error("Dados Inváidos para buscar", StackTrace.current);
     }
     try {
       final response =
-          await _db.collection(data.collection).doc(data.id).get();
+          await _db.collection(data.collection).doc(data.idModel).get();
       if (response.exists && response.data() != null) {
         return response.data()!;
       }
@@ -167,11 +167,11 @@ class FirebaseService {
   Future<void> delete({
     required BaseModel data,
   }) async {
-    if (data.id.isEmpty || data.collection.isEmpty) {
+    if (data.idModel.isEmpty || data.collection.isEmpty) {
       return Future.error("Dados Inváidos para atualizar", StackTrace.current);
     }
     try {
-      await _db.collection(data.collection).doc(data.id).delete();
+      await _db.collection(data.collection).doc(data.idModel).delete();
     } catch (e, stackTrace) {
       return Future.error(e.toString(), stackTrace);
     }
@@ -187,7 +187,7 @@ class FirebaseService {
       final map = data.toMap();
       map["createAt"] = DateTime.now();
       final response = await _db.collection(data.collection).add(map);
-      return await update(data: data.setid(response.id));
+      return await update(data: data.setIdModel(response.id));
     } catch (e, stackTrace) {
       return Future.error("Erro ao tentar Cadastrar", stackTrace);
     }
@@ -196,13 +196,13 @@ class FirebaseService {
   Future<BaseModel> update({
     required BaseModel data,
   }) async {
-    if (data.id.isEmpty || data.collection.isEmpty) {
+    if (data.idModel.isEmpty || data.collection.isEmpty) {
       return Future.error("Dados Inváidos para atualizar", StackTrace.current);
     }
     try {
       final map = data.toMap();
       map["updateAt"] = DateTime.now();
-      await _db.collection(data.collection).doc(data.id).set(
+      await _db.collection(data.collection).doc(data.idModel).set(
             map,
             SetOptions(
               merge: true,
