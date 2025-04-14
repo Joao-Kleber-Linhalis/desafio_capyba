@@ -1,33 +1,33 @@
 import 'package:desafio_capyba/core/services/firebase_service.dart';
 
-abstract class BaseModel {
-  String get id;
+abstract class BaseModel<T> {
+  String get idModel;
   String get collection;
-  BaseModel empty();
-  BaseModel fromMap(Map<String, dynamic>? map);
+  T empty();
+  T fromMap(Map<String, dynamic>? map);
   Map<String, dynamic> toMap();
-  BaseModel setid(String id);
+  T setIdModel(String id);
 
-  Future<List<BaseModel>> getCollection() async {
+  Future<List<T>> getCollection() async {
     final firebase = FirebaseService.instance;
     final result = await firebase.getCollection(data: this);
     return (result.map((e) => fromMap(e)).toList());
   }
 
   Future<void> deleteItem() async {
-    if (id.isNotEmpty) {
+    if (idModel.isNotEmpty) {
       final firebase = FirebaseService.instance;
       await firebase.delete(data: this);
     }
   }
 
-  Future<BaseModel> getItem() async {
+  Future<T> getItem() async {
     final firebase = FirebaseService.instance;
     final result = await firebase.getById(data: this);
     return fromMap(result);
   }
 
-  Future<List<BaseModel>> getCollectionByFilter({
+  Future<List<T>> getCollectionByFilter({
     required List<ConditionModel> listConditions,
   }) async {
     final firebase = FirebaseService.instance;
@@ -39,11 +39,11 @@ abstract class BaseModel {
     return result.map((e) => fromMap(e)).toList();
   }
 
-  Future<BaseModel> save() async {
+  Future<T> save() async {
     final firebase = FirebaseService.instance;
-    if (id.isEmpty) {
+    if (idModel.isEmpty) {
       final result = await firebase.create(data: this);
-      return this.setid(result.id);
+      return this.setIdModel(result.idModel);
     }
 
     final result = await firebase.update(data: this);
