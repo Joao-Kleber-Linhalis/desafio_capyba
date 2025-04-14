@@ -1,0 +1,82 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desafio_capyba/shared/constants/collections.dart';
+import 'package:desafio_capyba/shared/models/base_model.dart';
+
+class UserModel extends BaseModel<UserModel> {
+  final String id;
+  final String name;
+  final String email;
+  final String? photoUrl;
+  final DateTime birthDate;
+
+  UserModel({
+    required this.id,
+    required this.name,
+    required this.email,
+    this.photoUrl,
+    required this.birthDate,
+  });
+
+  @override
+  String get collection => Collections.users;
+
+  @override
+  UserModel empty() {
+    return UserModel(
+      id: "",
+      name: "",
+      email: "",
+      photoUrl: "",
+      birthDate: DateTime.now(),
+    );
+  }
+
+  UserModel copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? photoUrl,
+    DateTime? birthDate,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      photoUrl: photoUrl ?? this.photoUrl,
+      birthDate: birthDate ?? this.birthDate,
+    );
+  }
+
+  @override
+  UserModel fromMap(Map<String, dynamic>? map) {
+    if (map == null) return empty();
+    return UserModel(
+      id: map["id"] ?? "",
+      name: map["name"] ?? "",
+      email: map["email"] ?? "",
+      photoUrl: map["photoUrl"],
+      birthDate: map['birthDate'] != null
+          ? (map['birthDate'] as Timestamp).toDate()
+          : DateTime.now(),
+    );
+  }
+
+  @override
+  String get idModel => id;
+
+  @override
+  UserModel setIdModel(String id) {
+    return copyWith(id: id);
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "name": name,
+      "email": email,
+      "photoUrl": photoUrl,
+      "birthDate": Timestamp.fromDate(birthDate),
+    };
+  }
+}
