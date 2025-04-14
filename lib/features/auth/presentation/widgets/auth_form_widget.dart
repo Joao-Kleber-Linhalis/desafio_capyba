@@ -1,9 +1,5 @@
-import 'package:desafio_capyba/core/exceptions/auth_exception.dart';
-import 'package:desafio_capyba/features/auth/provider/auth_provider.dart';
+import 'package:desafio_capyba/features/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-enum AuthMode { Signup, Login }
 
 class AuthFormWidget extends StatefulWidget {
   const AuthFormWidget({super.key});
@@ -14,66 +10,20 @@ class AuthFormWidget extends StatefulWidget {
 
 class _AuthFormWidgetState extends State<AuthFormWidget>
     with SingleTickerProviderStateMixin {
-  final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
-  AuthMode _authMode = AuthMode.Login;
-  final style = TextStyle(color: Colors.black);
-
-  final Map<String, String> _authData = {
-    'email': '',
-    'password': '',
-  };
-
-  AnimationController? _controller;
-  Animation<double>? _opacityAnimation;
-  Animation<Offset>? _slideAnimation;
-
-  bool _isLogin() => _authMode == AuthMode.Login;
-  //bool _isSignup() => _authMode == AuthMode.Signup;
+  final style = const TextStyle(color: Colors.black);
+  late final AuthController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _opacityAnimation = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _controller!,
-      curve: Curves.linear,
-    ));
-
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, -1.5),
-      end: const Offset(0, 0),
-    ).animate(CurvedAnimation(
-      parent: _controller!,
-      curve: Curves.linear,
-    ));
-
-    //_heightAnimation?.addListener(() => setState(() {}));
+    _controller = AuthController();
+    _controller.initAnimations(this);
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
-    _controller?.dispose();
-  }
-
-  void _swithAuthMode() {
-    setState(() {
-      if (_isLogin()) {
-        _authMode = AuthMode.Signup;
-        _controller?.forward();
-      } else {
-        _authMode = AuthMode.Login;
-        _controller?.reverse();
-      }
-    });
   }
 
   void _showErrorDialog(String msg) {
@@ -92,40 +42,6 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
     );
   }
 
-  Future<void> _submit() async {
-    final isValid = _formKey.currentState?.validate() ?? false;
-
-    if (!isValid) {
-      return;
-    }
-    setState(() => _isLoading = true);
-
-    _formKey.currentState?.save();
-    AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
-
-    try {
-      if (_isLogin()) {
-        //Efetuar Login
-        await auth.login(
-          _authData['email']!,
-          _authData['password']!,
-        );
-      } else {
-        //Efetuar Cadastro
-        await auth.signup(
-          _authData['email']!,
-          _authData['password']!,
-        );
-      }
-    } on AuthException catch (error) {
-      _showErrorDialog(error.toString());
-    } catch (error) {
-      _showErrorDialog("Ocorreu um erro inesperado!");
-    }
-
-    setState(() => _isLoading = false);
-  }
-
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -138,10 +54,10 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
         padding: const EdgeInsets.all(16),
-        height: _isLogin() ? 310 : 400,
+        height: _controller.isLogin ? 310 : 400,
         width: deviceSize.width * 0.75,
         child: Form(
-          key: _formKey,
+          key: _controller.formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -149,11 +65,12 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
                 style: style,
                 decoration: const InputDecoration(labelText: "E-mail"),
                 keyboardType: TextInputType.emailAddress,
-                onSaved: (email) => _authData['email'] = email ?? '',
+                onSaved: (email) =>
+                    _controller.authData['email'] = email ?? '',
                 validator: (_email) {
                   final email = _email ?? '';
                   if (email.trim().isEmpty || !email.contains("@")) {
-                    return 'Informe uma e-mail válido';
+                    return 'Informe um e-mail válido';
                   }
                   return null;
                 },
@@ -163,8 +80,9 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
                 decoration: const InputDecoration(labelText: "Senha"),
                 keyboardType: TextInputType.text,
                 obscureText: true,
-                controller: _passwordController,
-                onSaved: (password) => _authData['password'] = password ?? '',
+                controller: _controller.passwordController,
+                onSaved: (password) =>
+                    _controller.authData['password'] = password ?? '',
                 validator: (_password) {
                   final password = _password ?? '';
                   if (password.isEmpty || password.length < 5) {
@@ -175,26 +93,27 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
               ),
               AnimatedContainer(
                 constraints: BoxConstraints(
-                  minHeight: _isLogin() ? 0 : 60,
-                  maxHeight: _isLogin() ? 0 : 120,
+                  minHeight: _controller.isLogin ? 0 : 60,
+                  maxHeight: _controller.isLogin ? 0 : 120,
                 ),
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.linear,
                 child: FadeTransition(
-                  opacity: _opacityAnimation!,
+                  opacity: _controller.opacityAnimation,
                   child: SlideTransition(
-                    position: _slideAnimation!,
+                    position: _controller.slideAnimation,
                     child: TextFormField(
                       style: style,
                       decoration:
                           const InputDecoration(labelText: "Confirmar Senha"),
                       keyboardType: TextInputType.text,
                       obscureText: true,
-                      validator: _isLogin()
+                      validator: _controller.isLogin
                           ? null
                           : (_password) {
                               final password = _password ?? '';
-                              if (password != _passwordController.text) {
+                              if (password !=
+                                  _controller.passwordController.text) {
                                 return 'Senhas não conferem';
                               }
                               return null;
@@ -204,34 +123,37 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
                 ),
               ),
               const SizedBox(height: 20),
-              if (_isLoading)
+              if (_controller.isLoading)
                 const CircularProgressIndicator()
               else
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      backgroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 8,
-                      )),
-                  onPressed: _submit,
-                  child: Text(
-                    _authMode == AuthMode.Login ? "Entrar" : "Registrar",
-                    style: const TextStyle(
-                      color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
+                    backgroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 8,
+                    ),
+                  ),
+                  onPressed: () => _controller.submit(
+                    context,
+                    () => setState(() => _controller.isLoading = true),
+                    () => setState(() => _controller.isLoading = false),
+                    _showErrorDialog,
+                  ),
+                  child: Text(
+                    _controller.isLogin ? "Entrar" : "Registrar",
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               TextButton(
-                onPressed: _swithAuthMode,
+                onPressed: () =>
+                    _controller.toggleAuthMode(() => setState(() {})),
                 child: Text(
-                  _isLogin() ? "CADASTRAR" : "JÁ POSSUO CONTA",
-                  style: const TextStyle(
-                    color: Colors.black,
-                  ),
+                  _controller.isLogin ? "CADASTRAR" : "JÁ POSSUO CONTA",
+                  style: const TextStyle(color: Colors.black),
                 ),
               ),
             ],
