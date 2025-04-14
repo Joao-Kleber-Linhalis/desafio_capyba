@@ -1,3 +1,4 @@
+import 'package:desafio_capyba/core/exceptions/auth_exception.dart';
 import 'package:desafio_capyba/shared/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,8 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
       }
       notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.code);
     } catch (e) {
       debugPrint(e.toString());
     }
