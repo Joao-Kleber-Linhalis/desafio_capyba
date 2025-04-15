@@ -24,42 +24,13 @@ class FirebaseService {
     debugPrint("==== FirebaseService =====");
   }
 
-  Future<String> saveFile(
-    File file,
-    String path,
-  ) async {
-    try {
-      final time = DateTime.now().toIso8601String();
-      final extension = file.path.split('.').last;
-      var fileName = "${time}_${file.path.split('/').last}";
-      fileName = fileName
-          .replaceAll(" ", "_")
-          .replaceAll("/", "_")
-          .replaceAll(":", "_")
-          .replaceAll(".", "_")
-          .replaceAll("-", "_");
-      final fileRef = storageRef.child("$path/$fileName.$extension");
-      await fileRef.putData(file.readAsBytesSync());
-      return await fileRef.getDownloadURL();
-    } catch (e) {
-      return Future.error(e, StackTrace.current);
-    }
-  }
+  Future<String?> saveImage(
+      File? image, String imageId, String collection) async {
+    if (image == null) return null;
 
-  Future<List<String>> getFilesFromPath(String id) async {
-    List<String> files = [];
-    try {
-      final fileRef = storageRef.child(id);
-      final list = await fileRef.listAll();
-      for (var item in list.items) {
-        final url = await item.getDownloadURL();
-
-        files.add(url);
-      }
-    } catch (e) {
-      return Future.error(e, StackTrace.current);
-    }
-    return files;
+    final imageRef = storageRef.child(collection).child(imageId);
+    await imageRef.putFile(image).whenComplete(() {});
+    return await imageRef.getDownloadURL();
   }
 
   Future<List<Map<String, dynamic>>> getCollection({
