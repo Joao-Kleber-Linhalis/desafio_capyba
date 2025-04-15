@@ -18,11 +18,7 @@ class UserModel extends BaseModel<UserModel> {
   @override
   String get collection => Collections.users;
 
-  bool get isEmpty =>
-      id.isEmpty &&
-      name.isEmpty &&
-      photoUrl.isEmpty &&
-      birthDate == DateTime.now();
+  bool get isEmpty => id.isEmpty || name.isEmpty || photoUrl.isEmpty;
 
   factory UserModel.empty() {
     return UserModel(
