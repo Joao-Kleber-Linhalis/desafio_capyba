@@ -84,7 +84,7 @@ class FirebaseService {
     }
   }
 
-  Future<Map<String, dynamic>> getById({
+  Future<Map<String, dynamic>?> getById({
     required BaseModel data,
   }) async {
     if (data.idModel.isEmpty || data.collection.isEmpty) {
@@ -96,8 +96,7 @@ class FirebaseService {
       if (response.exists && response.data() != null) {
         return response.data()!;
       }
-      return Future.error(
-          "Dado não encontrado em ${data.collection}", StackTrace.current);
+      return null;
     } catch (e, stackTrace) {
       return Future.error(e.toString(), stackTrace);
     }
