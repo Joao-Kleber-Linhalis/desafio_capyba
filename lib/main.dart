@@ -8,6 +8,7 @@ import 'package:desafio_capyba/firebase_options.dart';
 import 'package:desafio_capyba/shared/constants/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -30,9 +31,19 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('pt', 'BR')],
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor),
+          scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: AppColors.appBarBackgroundColor,
+          ),
+        ),
         routes: {
           AppRoutes.SPLASH: (context) => const SplashScreen(),
           AppRoutes.AUTH_OR_HOME: (context) => const AuthOrHomeScreen(),
