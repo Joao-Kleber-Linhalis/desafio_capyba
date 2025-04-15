@@ -1,4 +1,7 @@
 import 'package:desafio_capyba/features/auth/controllers/auth_controller.dart';
+import 'package:desafio_capyba/shared/constants/app_text_styles.dart';
+import 'package:desafio_capyba/shared/utils/responsive.dart';
+import 'package:desafio_capyba/shared/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 
 class AuthFormWidget extends StatefulWidget {
@@ -10,7 +13,6 @@ class AuthFormWidget extends StatefulWidget {
 
 class _AuthFormWidgetState extends State<AuthFormWidget>
     with SingleTickerProviderStateMixin {
-  final style = const TextStyle(color: Colors.black);
   late final AuthController _controller;
 
   @override
@@ -26,25 +28,8 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
     super.dispose();
   }
 
-  void _showErrorDialog(String msg) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text("Ocorreu um Erro"),
-        content: Text(msg),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Fechar"),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(
@@ -55,18 +40,17 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
         curve: Curves.easeIn,
         padding: const EdgeInsets.all(16),
         height: _controller.isLogin ? 310 : 400,
-        width: deviceSize.width * 0.75,
+        width: Responsive.screenWidth(context) * 0.75,
         child: Form(
           key: _controller.formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TextFormField(
-                style: style,
+                style: AppTextStyles.style,
                 decoration: const InputDecoration(labelText: "E-mail"),
                 keyboardType: TextInputType.emailAddress,
-                onSaved: (email) =>
-                    _controller.authData['email'] = email ?? '',
+                onSaved: (email) => _controller.authData['email'] = email ?? '',
                 validator: (_email) {
                   final email = _email ?? '';
                   if (email.trim().isEmpty || !email.contains("@")) {
@@ -76,7 +60,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
                 },
               ),
               TextFormField(
-                style: style,
+                style: AppTextStyles.style,
                 decoration: const InputDecoration(labelText: "Senha"),
                 keyboardType: TextInputType.text,
                 obscureText: true,
@@ -103,7 +87,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
                   child: SlideTransition(
                     position: _controller.slideAnimation,
                     child: TextFormField(
-                      style: style,
+                      style: AppTextStyles.style,
                       decoration:
                           const InputDecoration(labelText: "Confirmar Senha"),
                       keyboardType: TextInputType.text,
@@ -126,23 +110,13 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
               if (_controller.isLoading)
                 const CircularProgressIndicator()
               else
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 8,
-                    ),
-                  ),
+                ButtonWidget(
                   onPressed: () => _controller.submit(
                     context,
                     () => setState(() => _controller.isLoading = true),
                     () => setState(() => _controller.isLoading = false),
-                    _showErrorDialog,
                   ),
+                  isLoading: _controller.isLoading,
                   child: Text(
                     _controller.isLogin ? "Entrar" : "Registrar",
                     style: const TextStyle(color: Colors.white),
@@ -153,7 +127,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
                     _controller.toggleAuthMode(() => setState(() {})),
                 child: Text(
                   _controller.isLogin ? "CADASTRAR" : "JÁ POSSUO CONTA",
-                  style: const TextStyle(color: Colors.black),
+                  style: AppTextStyles.style,
                 ),
               ),
             ],
