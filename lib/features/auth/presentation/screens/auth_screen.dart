@@ -9,20 +9,22 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  ImagesPath.login,
-                  fit: BoxFit.contain,
-                ),
-                AuthFormWidget(),
-              ],
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    ImagesPath.login,
+                    fit: BoxFit.contain,
+                  ),
+                  AuthFormWidget(),
+                ],
+              ),
             ),
           ),
         ),
