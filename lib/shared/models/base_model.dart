@@ -44,7 +44,6 @@ abstract class BaseModel<T> {
       final result = await firebase.create(data: this);
       return this.setIdModel(result.idModel);
     }
-
     final result = await firebase.update(data: this);
     return await result.getItem();
   }
