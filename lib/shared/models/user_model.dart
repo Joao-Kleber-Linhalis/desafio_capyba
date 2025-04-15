@@ -5,18 +5,24 @@ import 'package:desafio_capyba/shared/models/base_model.dart';
 class UserModel extends BaseModel<UserModel> {
   final String id;
   final String name;
-  final String? photoUrl;
+  final String photoUrl;
   final DateTime birthDate;
 
   UserModel({
     required this.id,
     required this.name,
-    this.photoUrl,
+    required this.photoUrl,
     required this.birthDate,
   });
 
   @override
   String get collection => Collections.users;
+
+  bool get isEmpty =>
+      id.isEmpty &&
+      name.isEmpty &&
+      photoUrl.isEmpty &&
+      birthDate == DateTime.now();
 
   factory UserModel.empty() {
     return UserModel(
@@ -47,7 +53,7 @@ class UserModel extends BaseModel<UserModel> {
     return UserModel(
       id: map["id"] ?? "",
       name: map["name"] ?? "",
-      photoUrl: map["photoUrl"],
+      photoUrl: map["photoUrl"] ?? "",
       birthDate: map['birthDate'] != null
           ? (map['birthDate'] as Timestamp).toDate()
           : DateTime.now(),
