@@ -1,3 +1,4 @@
+import 'package:desafio_capyba/shared/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -58,7 +59,6 @@ class AuthController {
     BuildContext context,
     VoidCallback startLoading,
     VoidCallback stopLoading,
-    void Function(String msg) showErrorDialog,
   ) async {
     final isValid = formKey.currentState?.validate() ?? false;
     if (!isValid) return;
@@ -75,9 +75,9 @@ class AuthController {
         await auth.signup(authData['email']!, authData['password']!);
       }
     } on AuthException catch (e) {
-      showErrorDialog(e.toString());
+      Tools.showErrorDialog(e.toString(), context);
     } catch (_) {
-      showErrorDialog("Ocorreu um erro inesperado.");
+      Tools.showErrorDialog("Ocorreu um erro inesperado.", context);
     }
     stopLoading();
   }
