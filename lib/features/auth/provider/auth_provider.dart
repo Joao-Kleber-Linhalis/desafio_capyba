@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 class AuthProvider with ChangeNotifier {
   static final _auth = FirebaseAuth.instance;
 
-  UserModel? _userModel;
+  late UserModel _userModel;
 
-  UserModel? get userModel => _userModel;
+  UserModel get userModel => _userModel;
 
   bool get isAuth {
     return _auth.currentUser != null;
@@ -16,6 +16,14 @@ class AuthProvider with ChangeNotifier {
 
   String? get userId {
     return isAuth ? _auth.currentUser!.uid : null;
+  }
+
+  Future<void> loadUserModel() async {
+    if (_auth.currentUser != null) {
+      final user = _auth.currentUser!;
+      _userModel = await UserModel.empty().copyWith(id: user.uid).getItem();
+      notifyListeners();
+    }
   }
 
   Future<void> _authenticate(
@@ -31,7 +39,6 @@ class AuthProvider with ChangeNotifier {
       final user = _auth.currentUser;
       if (user != null) {
         _userModel = await UserModel.empty().copyWith(id: user.uid).save();
-        notifyListeners();
       }
       notifyListeners();
     } on FirebaseAuthException catch (e) {
