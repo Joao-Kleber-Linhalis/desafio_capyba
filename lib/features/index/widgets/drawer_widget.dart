@@ -15,28 +15,23 @@ class DrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<AuthProvider>(context).userModel;
     return Drawer(
-        backgroundColor: AppColors.scaffoldBackgroundColor,
-        shape: const Border(),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              buildHeader(
-                context: context,
-                imageUrl: user.photoUrl,
-                name: user.name,
-              ),
-              buildMenuItems(context),
-              ListTile(
-                leading: Icon(Icons.logout),
-                title: Text("Sair"),
-                onTap: () {
-                  Provider.of<AuthProvider>(context, listen: false).logout();
-                },
-              ),
-            ],
+      shape: const Border(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          buildHeader(
+            context: context,
+            imageUrl: user.photoUrl,
+            name: user.name,
           ),
-        ));
+          Expanded(
+            child: buildMenuItems(context),
+          ),
+          const Divider(color: Colors.white24),
+          buildLogoutItem(context),
+        ],
+      ),
+    );
   }
 
   Widget buildHeader({
@@ -45,22 +40,21 @@ class DrawerWidget extends StatelessWidget {
     required String name,
   }) {
     return Container(
+      color: AppColors.scaffoldBackgroundColor,
       padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top,
+        top: MediaQuery.of(context).padding.top + 16,
+        bottom: 16,
       ),
       child: Column(
-        spacing: 10,
         children: [
           GestureDetector(
-            onTap: () {
-              //Feedback de toque, emiti o som de clique
-              Feedback.forTap(context);
-            },
+            onTap: () => Feedback.forTap(context),
             child: CircleAvatarWidget(
               imageUrl: imageUrl,
               radius: 70,
             ),
           ),
+          const SizedBox(height: 10),
           Text(
             name,
             textAlign: TextAlign.center,
@@ -73,20 +67,28 @@ class DrawerWidget extends StatelessWidget {
   }
 
   Widget buildMenuItems(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Wrap(
-        runSpacing: 5,
-        children: controller.drawerOptions.map((option) {
-          return ListTile(
-            leading: Icon(option.icon),
-            title: Text(option.title),
-            onTap: (){
-              Navigator.of(context).pushNamed(option.route);
-            },
-          );
-        }).toList(),
-      ),
+    return ListView.builder(
+      itemCount: controller.drawerOptions.length,
+      itemBuilder: (context, index) {
+        final option = controller.drawerOptions[index];
+        return ListTile(
+          leading: Icon(option.icon),
+          title: Text(option.title),
+          onTap: () {
+            Navigator.of(context).pushNamed(option.route);
+          },
+        );
+      },
+    );
+  }
+
+  Widget buildLogoutItem(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.logout),
+      title: const Text("Sair"),
+      onTap: () {
+        Provider.of<AuthProvider>(context, listen: false).logout();
+      },
     );
   }
 }
