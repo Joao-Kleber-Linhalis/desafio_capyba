@@ -18,6 +18,10 @@ class AuthProvider with ChangeNotifier {
     return isAuth ? _auth.currentUser!.uid : null;
   }
 
+  bool get isEmailVerified {
+    return _auth.currentUser?.emailVerified ?? false;
+  }
+
   Future<void> loadUserModel() async {
     if (_auth.currentUser != null) {
       final user = _auth.currentUser!;
