@@ -1,10 +1,12 @@
 import 'package:desafio_capyba/core/routes/app_routes.dart';
 import 'package:desafio_capyba/features/auth/presentation/screens/auth_screen.dart';
 import 'package:desafio_capyba/features/auth/provider/auth_provider.dart';
+import 'package:desafio_capyba/features/home/provider/home_provider.dart';
 import 'package:desafio_capyba/features/index/presentation/index_screen.dart';
 import 'package:desafio_capyba/features/presentation/auth_or_home_screen.dart';
 import 'package:desafio_capyba/features/presentation/splash_screen.dart';
 import 'package:desafio_capyba/features/profile/presentation/profile_screen.dart';
+import 'package:desafio_capyba/features/restricted/provider/restricted_provider.dart';
 import 'package:desafio_capyba/firebase_options.dart';
 import 'package:desafio_capyba/shared/constants/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,7 +22,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -31,6 +32,20 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => AuthProvider(),
         ),
+        ChangeNotifierProxyProvider<AuthProvider, HomeProvider>(
+          create: (_) => HomeProvider(),
+          update: (_, auth, previous) => HomeProvider(
+            auth.isAuth,
+          ),
+        ),
+        ChangeNotifierProxyProvider<AuthProvider, RestrictedProvider>(
+          create: (_) => RestrictedProvider(),
+          update: (_, auth, previous) => RestrictedProvider(
+            auth.isAuth,
+            auth.isEmailVerified,
+            auth.userModel.restrictedItems,
+          ),
+        )
       ],
       child: MaterialApp(
         localizationsDelegates: const [
