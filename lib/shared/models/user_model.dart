@@ -6,6 +6,7 @@ class UserModel extends BaseModel<UserModel> {
   final String id;
   final String name;
   final String photoUrl;
+  final List<String> restrictedItems;
   final DateTime birthDate;
 
   UserModel({
@@ -13,6 +14,7 @@ class UserModel extends BaseModel<UserModel> {
     required this.name,
     required this.photoUrl,
     required this.birthDate,
+    required this.restrictedItems,
   });
 
   @override
@@ -26,6 +28,7 @@ class UserModel extends BaseModel<UserModel> {
       name: "",
       photoUrl: "",
       birthDate: DateTime.now(),
+      restrictedItems: [],
     );
   }
 
@@ -34,12 +37,14 @@ class UserModel extends BaseModel<UserModel> {
     String? name,
     String? photoUrl,
     DateTime? birthDate,
+    List<String>? restrictedItems,
   }) {
     return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
       photoUrl: photoUrl ?? this.photoUrl,
       birthDate: birthDate ?? this.birthDate,
+      restrictedItems: restrictedItems ?? this.restrictedItems,
     );
   }
 
@@ -53,6 +58,7 @@ class UserModel extends BaseModel<UserModel> {
       birthDate: map['birthDate'] != null
           ? (map['birthDate'] as Timestamp).toDate()
           : DateTime.now(),
+      restrictedItems: List<String>.from(map['restrictedItems'] ?? []),
     );
   }
 
@@ -71,6 +77,7 @@ class UserModel extends BaseModel<UserModel> {
       "name": name,
       "photoUrl": photoUrl,
       "birthDate": Timestamp.fromDate(birthDate),
+      "restrictedItems": restrictedItems,
     };
   }
 }
