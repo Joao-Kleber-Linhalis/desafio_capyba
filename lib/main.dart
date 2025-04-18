@@ -1,6 +1,7 @@
 import 'package:desafio_capyba/core/routes/app_routes.dart';
 import 'package:desafio_capyba/features/auth/presentation/screens/auth_screen.dart';
 import 'package:desafio_capyba/features/auth/provider/auth_provider.dart';
+import 'package:desafio_capyba/features/index/presentation/index_screen.dart';
 import 'package:desafio_capyba/features/presentation/auth_or_home_screen.dart';
 import 'package:desafio_capyba/features/presentation/splash_screen.dart';
 import 'package:desafio_capyba/features/profile/presentation/profile_screen.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.AUTH_OR_HOME: (context) => const AuthOrHomeScreen(),
           AppRoutes.AUTH_SCREEN: (context) => const AuthScreen(),
           AppRoutes.PROFILE_SCREEN: (context) => const ProfileScreen(),
+          AppRoutes.INDEX_SCREEN: (context) => const IndexScreen(),
         },
       ),
     );

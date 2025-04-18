@@ -4,4 +4,7 @@ class AppColors {
   static const Color scaffoldBackgroundColor = Color(0xFFcdf6ee);
   static const Color appBarBackgroundColor = Color(0xFFcaf5fb);
   static const Color buttonBackgroundColor = Color(0xFFcee1ff);
+  static const Color bottomNavigationBarItemSelectedColor = Color.fromARGB(255, 165, 92, 238);
+  static const Color bottomNavigationBarItemUnselectedColor = Color(0xFF000000);
+  static const Color bottomNavigationBarBackgroundColor = Color(0xFFe6f9fd);
 }

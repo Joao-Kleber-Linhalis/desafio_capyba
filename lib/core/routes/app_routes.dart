@@ -1,7 +1,9 @@
+// ignore_for_file: constant_identifier_names
+
 class AppRoutes {
   static const SPLASH = '/';
   static const AUTH_OR_HOME = '/auth-or-home';
   static const AUTH_SCREEN = '/auth-screen';
-  static const HOME_SCREEN = '/home-screen';
+  static const INDEX_SCREEN = '/index-screen';
   static const PROFILE_SCREEN = '/profile-screen';
 }

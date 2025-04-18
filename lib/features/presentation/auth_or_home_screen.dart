@@ -40,7 +40,7 @@ class _AuthOrHomeScreenState extends State<AuthOrHomeScreen> {
                         .pushReplacementNamed(AppRoutes.PROFILE_SCREEN);
                   } else {
                     Navigator.of(context)
-                        .pushReplacementNamed(AppRoutes.HOME_SCREEN);
+                        .pushReplacementNamed(AppRoutes.INDEX_SCREEN);
                   }
                 });
                 return const Center(child: CircularProgressIndicator());
