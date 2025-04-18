@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:desafio_capyba/core/routes/app_routes.dart';
 import 'package:desafio_capyba/core/services/firebase_service.dart';
 import 'package:desafio_capyba/features/auth/provider/auth_provider.dart';
 import 'package:desafio_capyba/shared/models/user_model.dart';
@@ -33,6 +34,7 @@ class ProfileController {
     BuildContext context,
     VoidCallback startLoading,
     VoidCallback stopLoading,
+    bool isEditMode,
   ) async {
     final isValid = formKey.currentState?.validate() ?? false;
     if (!isValid) return;
@@ -52,14 +54,21 @@ class ProfileController {
         id: authProvider.userId,
         name: nameController.text,
         birthDate: birthDate,
-        photoUrl: "",
+        photoUrl: user.photoUrl,
       );
       await user.save();
-      String photoFirebaseUrl = await FirebaseService.instance
-              .saveImage(File(photoUrl), user.id, user.collection) ??
-          "";
-      user = await user.copyWith(photoUrl: photoFirebaseUrl).save();
+      if (!photoUrl.contains("http")) {
+        String photoFirebaseUrl = await FirebaseService.instance
+                .saveImage(File(photoUrl), user.id, user.collection) ??
+            "";
+        user = await user.copyWith(photoUrl: photoFirebaseUrl).save();
+      }
       await authProvider.loadUserModel();
+      if (isEditMode) {
+        Navigator.of(context).pop();
+      } else {
+        Navigator.of(context).pushNamed(AppRoutes.INDEX_SCREEN);
+      }
     } catch (e) {
       debugPrint(e.toString());
       Tools.showErrorDialog("Erro ao salvar perfil. Tente novamente.", context);

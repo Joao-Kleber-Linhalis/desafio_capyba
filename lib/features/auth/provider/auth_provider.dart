@@ -38,7 +38,7 @@ class AuthProvider with ChangeNotifier {
       }
       final user = _auth.currentUser;
       if (user != null) {
-        _userModel = await UserModel.empty().copyWith(id: user.uid).save();
+        _userModel = await UserModel.empty().copyWith(id: user.uid).getItem();
       }
       notifyListeners();
     } on FirebaseAuthException catch (e) {
@@ -61,8 +61,8 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await _auth.signOut();
     _userModel = UserModel.empty();
+    await _auth.signOut();
     notifyListeners();
   }
 }

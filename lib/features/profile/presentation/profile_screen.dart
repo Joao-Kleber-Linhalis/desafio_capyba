@@ -9,7 +9,11 @@ import 'package:desafio_capyba/shared/widgets/take_picture_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  final bool isEditMode;
+  const ProfileScreen({
+    super.key,
+    this.isEditMode = true,
+  });
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -133,11 +137,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   style: AppTextStyles.style,
                                 ),
                                 onPressed: () => _controller.submit(
-                                    context,
-                                    () => setState(
-                                        () => _controller.isLoading = true),
-                                    () => setState(
-                                        () => _controller.isLoading = false)),
+                                  context,
+                                  () => setState(
+                                      () => _controller.isLoading = true),
+                                  () => setState(
+                                      () => _controller.isLoading = false),
+                                  widget.isEditMode,
+                                ),
                               )
                             ],
                           ),

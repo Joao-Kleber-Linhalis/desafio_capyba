@@ -65,6 +65,7 @@ class FirebaseService {
       final response =
           await _db.collection(data.collection).doc(data.idModel).get();
       if (response.exists && response.data() != null) {
+        print(response.data()!);
         return response.data()!;
       }
       return null;

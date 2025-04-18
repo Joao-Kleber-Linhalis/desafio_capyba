@@ -1,5 +1,6 @@
 import 'package:desafio_capyba/features/home/presentation/home_screen.dart';
 import 'package:desafio_capyba/features/index/controllers/index_controller.dart';
+import 'package:desafio_capyba/features/index/widgets/drawer_widget.dart';
 import 'package:desafio_capyba/features/restricted/presentation/restricted_screen.dart';
 import 'package:desafio_capyba/shared/constants/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,11 @@ class _IndexScreenState extends State<IndexScreen> {
       valueListenable: screenController.selectedIndexNotifier,
       builder: (context, selectedIndex, child) {
         return Scaffold(
+          appBar: AppBar(
+            title: const Text('CapyLoot'),
+            centerTitle: true,
+            backgroundColor: AppColors.appBarBackgroundColor,
+          ),
           backgroundColor: AppColors.bottomNavigationBarBackgroundColor,
           body: Center(
             child: _widgetOptions.elementAt(selectedIndex),
@@ -48,6 +54,7 @@ class _IndexScreenState extends State<IndexScreen> {
             showUnselectedLabels: true,
             onTap: screenController.onItemTapped,
           ),
+          drawer: DrawerWidget(),
         );
       },
     );

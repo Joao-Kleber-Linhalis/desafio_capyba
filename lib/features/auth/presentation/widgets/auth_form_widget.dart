@@ -119,7 +119,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
                   isLoading: _controller.isLoading,
                   child: Text(
                     _controller.isLogin ? "Entrar" : "Registrar",
-                    style: const TextStyle(color: Colors.white),
+                    style: AppTextStyles.style,
                   ),
                 ),
               TextButton(
