@@ -24,6 +24,11 @@ class DrawerController {
       title: "Abrir CapyLoot",
       icon: Icons.card_giftcard,
       route: "",
+    ),
+    DrawerOptionsModel(
+      title: "Criar registro",
+      icon: Icons.add,
+      route: AppRoutes.CREATE_SCREEN,
     )
   ];
 }

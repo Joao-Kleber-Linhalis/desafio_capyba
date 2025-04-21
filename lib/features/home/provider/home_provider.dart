@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:desafio_capyba/core/services/firebase_service.dart';
 import 'package:desafio_capyba/features/home/models/home_model.dart';
 import 'package:flutter/material.dart';
 
@@ -32,10 +35,16 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveHome(HomeModel home) async {
+  Future<void> saveHome(HomeModel home, String photoUrl) async {
     if (!isAllowed) return;
     try {
-      final saveHome = await home.save();
+      HomeModel saveHome = await home.save();
+      if (!photoUrl.contains("http")) {
+        String photoFirebaseUrl = await FirebaseService.instance
+                .saveImage(File(photoUrl), saveHome.id, saveHome.collection) ??
+            "";
+        saveHome = await saveHome.copyWith(imageUrl: photoFirebaseUrl).save();
+      }
       if (home.id.isEmpty) {
         _items.add(saveHome);
       } else {

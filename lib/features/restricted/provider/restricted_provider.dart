@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:desafio_capyba/core/services/firebase_service.dart';
 import 'package:desafio_capyba/features/restricted/models/restricted_model.dart';
 import 'package:flutter/material.dart';
 
@@ -43,10 +46,18 @@ class RestrictedProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveRestricted(RestrictedModel restricted) async {
+  Future<void> saveRestricted(
+      RestrictedModel restricted, String photoUrl) async {
     if (!isAllowed) return;
     try {
-      final saveRestricted = await restricted.save();
+      RestrictedModel saveRestricted = await restricted.save();
+      if (!photoUrl.contains("http")) {
+        String photoFirebaseUrl = await FirebaseService.instance.saveImage(
+                File(photoUrl), saveRestricted.id, saveRestricted.collection) ??
+            "";
+        saveRestricted =
+            await saveRestricted.copyWith(imageUrl: photoFirebaseUrl).save();
+      }
       if (restricted.id.isEmpty) {
         _items.add(saveRestricted);
       } else {
