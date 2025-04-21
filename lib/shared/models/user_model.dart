@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:desafio_capyba/shared/constants/collections.dart';
 import 'package:desafio_capyba/shared/models/base_model.dart';
@@ -9,6 +11,7 @@ class UserModel extends BaseModel<UserModel> {
   final List<String> restrictedItems;
   final DateTime birthDate;
 
+  
   UserModel({
     required this.id,
     required this.name,
@@ -80,4 +83,26 @@ class UserModel extends BaseModel<UserModel> {
       "restrictedItems": restrictedItems,
     };
   }
+
+
+  //Métodos não utilizados
+  @override
+  // TODO: implement getColor
+  Color get getColor => throw UnimplementedError();
+
+  @override
+  // TODO: implement getDescription
+  String get getDescription => throw UnimplementedError();
+
+  @override
+  // TODO: implement getImageUrl
+  String get getImageUrl => throw UnimplementedError();
+
+  @override
+  // TODO: implement getRarity
+  String get getRarity => throw UnimplementedError();
+
+  @override
+  // TODO: implement getTitle
+  String get getTitle => throw UnimplementedError();
 }

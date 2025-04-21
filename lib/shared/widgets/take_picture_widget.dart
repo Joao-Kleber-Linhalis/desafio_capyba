@@ -11,8 +11,6 @@ class TakePictureWidget extends StatelessWidget {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(
       source: fromGallery ? ImageSource.gallery : ImageSource.camera,
-      imageQuality: 50,
-      maxWidth: 150,
     );
 
     if (pickedImage != null) {

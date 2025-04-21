@@ -3,6 +3,7 @@ import 'package:desafio_capyba/features/home/models/home_model.dart';
 import 'package:desafio_capyba/features/home/provider/home_provider.dart';
 import 'package:desafio_capyba/features/restricted/models/restricted_model.dart';
 import 'package:desafio_capyba/features/restricted/provider/restricted_provider.dart';
+import 'package:desafio_capyba/shared/constants/rarity.dart';
 import 'package:desafio_capyba/shared/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 class CreateController {
   bool isLoading = false;
   String type = "Home";
-  String rarity = "Common";
+  String rarity = Rarity.rarities[0];
   final formKey = GlobalKey<FormState>();
 
   late bool isEmailVerified;
@@ -22,13 +23,6 @@ class CreateController {
   final List<String> types = [
     "Home",
     "Restricted",
-  ];
-
-  final List<String> rarities = [
-    "Common",
-    "Rare",
-    "Epic",
-    "Legendary",
   ];
 
   void verify(BuildContext context) {

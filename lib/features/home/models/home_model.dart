@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:desafio_capyba/shared/constants/collections.dart';
 import 'package:desafio_capyba/shared/models/base_model.dart';
+import 'package:flutter/material.dart';
 
 class HomeModel extends BaseModel<HomeModel> {
   final String id;
@@ -68,4 +71,19 @@ class HomeModel extends BaseModel<HomeModel> {
       "imageUrl": imageUrl,
     };
   }
+
+  @override
+  Color get getColor => Colors.white;
+
+  @override
+  String get getDescription => description;
+
+  @override
+  String get getImageUrl => imageUrl;
+
+  @override
+  String get getRarity => "";
+
+  @override
+  String get getTitle => title;
 }

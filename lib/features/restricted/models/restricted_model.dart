@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:desafio_capyba/shared/constants/collections.dart';
+import 'package:desafio_capyba/shared/constants/rarity.dart';
 import 'package:desafio_capyba/shared/models/base_model.dart';
 
 class RestrictedModel extends BaseModel<RestrictedModel> {
@@ -75,4 +78,19 @@ class RestrictedModel extends BaseModel<RestrictedModel> {
       "rarity": rarity,
     };
   }
+
+  @override
+  Color get getColor => Rarity.getColorForRarity(rarity);
+
+  @override
+  String get getDescription => description;
+
+  @override
+  String get getImageUrl => imageUrl;
+
+  @override
+  String get getRarity => rarity;
+
+  @override
+  String get getTitle => title;
 }

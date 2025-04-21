@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:desafio_capyba/core/services/firebase_service.dart';
 
 abstract class BaseModel<T> {
@@ -6,6 +8,11 @@ abstract class BaseModel<T> {
   T fromMap(Map<String, dynamic>? map);
   Map<String, dynamic> toMap();
   T setIdModel(String id);
+  String get getTitle;
+  String get getDescription;
+  String get getImageUrl;
+  String get getRarity;
+  Color get getColor;
 
   Future<List<T>> getCollection() async {
     final firebase = FirebaseService.instance;

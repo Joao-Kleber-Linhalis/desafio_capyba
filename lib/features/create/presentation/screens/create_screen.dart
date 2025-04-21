@@ -1,5 +1,6 @@
 import 'package:desafio_capyba/features/create/controllers/create_controller.dart';
 import 'package:desafio_capyba/shared/constants/app_text_styles.dart';
+import 'package:desafio_capyba/shared/constants/rarity.dart';
 import 'package:desafio_capyba/shared/utils/responsive.dart';
 import 'package:desafio_capyba/shared/utils/tools.dart';
 import 'package:desafio_capyba/shared/widgets/button_widget.dart';
@@ -128,11 +129,15 @@ class _CreateScreenState extends State<CreateScreen> {
                                       child: Row(
                                         spacing: 10,
                                         children: [
-                                          Text("Raridade",style: AppTextStyles.style,),
+                                          Text(
+                                            "Raridade",
+                                            style: AppTextStyles.style,
+                                          ),
                                           DropdownButton(
                                             value: _controller.rarity,
-                                            items: _controller.rarities
-                                                .map((rarity) => DropdownMenuItem(
+                                            items: Rarity.rarities
+                                                .map((rarity) =>
+                                                    DropdownMenuItem(
                                                       value: rarity,
                                                       child: Text(rarity),
                                                     ))
