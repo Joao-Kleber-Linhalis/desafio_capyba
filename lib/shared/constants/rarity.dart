@@ -11,13 +11,13 @@ class Rarity {
   static Color getColorForRarity(String rarity) {
     switch (rarity) {
       case 'Common':
-        return Colors.white;
+        return Color(0xffCDD7CC);
       case 'Rare':
-        return Colors.blue;
+        return Color(0xff419EFD);
       case 'Epic':
-        return Colors.purple;
+        return Color(0xffDF58F7);
       case 'Legendary':
-        return Colors.orange;
+        return Color(0xffFFA50D);
       default:
         return Colors.grey; // Para valores não reconhecidos
     }
