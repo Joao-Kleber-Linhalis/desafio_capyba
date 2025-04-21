@@ -16,10 +16,11 @@ class GridItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 5,
       color: item.getColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-        side: const BorderSide(color: AppColors.filterColor, width: 0.5),
+        borderRadius: BorderRadius.circular(5),
+        side: const BorderSide(color: Colors.black, width: 0.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,12 +29,24 @@ class GridItemWidget extends StatelessWidget {
           Expanded(
             child: Hero(
               tag: item.idModel,
-              child: FadeInImage(
-                placeholder: const AssetImage(
-                  ImagesPath.profile,
+              child: ClipRRect(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(5)),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(item.getImageUrl),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
+                    ),
+                  ),
+                  child: FadeInImage(
+                    placeholder: const AssetImage(ImagesPath.profile),
+                    image: CachedNetworkImageProvider(item.getImageUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                image: CachedNetworkImageProvider(item.getImageUrl),
-                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -45,16 +58,16 @@ class GridItemWidget extends StatelessWidget {
               children: [
                 Text(
                   item.getTitle,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
+                  style: AppTextStyles.styleBold,
                   overflow: TextOverflow.ellipsis,
                 ),
                 if (item.getRarity.trim().isNotEmpty)
                   Text(
                     item.getRarity,
-                    style: AppTextStyles.styleBold,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
                   ),
                 Text(
                   item.getDescription,
