@@ -53,7 +53,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCFKtVAKXU3yuc5WdnzRi-eS1qiE7k_jPc',
+    apiKey: 'AIzaSyCFKtVAKXU3yuc5WdnzRi-eS1qiE7k_jPc', // Certo é estar em um .env, mas por ser um projeto de desafio, não vejo problema, pretendo apagar o firebase depois.
     appId: '1:508815627010:android:e2fcc02417fc8cefec681b',
     messagingSenderId: '508815627010',
     projectId: 'capybox-2e1d1',
