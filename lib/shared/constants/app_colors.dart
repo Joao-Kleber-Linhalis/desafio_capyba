@@ -8,6 +8,9 @@ class AppColors {
       Color.fromARGB(255, 165, 92, 238);
   static const Color bottomNavigationBarItemUnselectedColor = Color(0xFF000000);
   static const Color bottomNavigationBarBackgroundColor = Color(0xFFe6f9fd);
-  static const filterColor = Color(0XFFCACACA);
-  static const descriptionColor = Color(0XFF7C7C7C);
+  static const Color filterColor = Color(0XFFCACACA);
+  static const Color descriptionColor = Color(0XFF000000);
+  static const Color searchBarColor = Color(0XFF717171);
+
+  static const Color searchBarBackgroundColor = Color(0xffcee1ff);
 }
