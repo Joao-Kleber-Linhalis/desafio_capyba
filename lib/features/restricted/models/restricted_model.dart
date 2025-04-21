@@ -55,7 +55,7 @@ class RestrictedModel extends BaseModel<RestrictedModel> {
   }
 
   @override
-  String get collection => Collections.home;
+  String get collection => Collections.restricted;
 
   @override
   String get idModel => id;

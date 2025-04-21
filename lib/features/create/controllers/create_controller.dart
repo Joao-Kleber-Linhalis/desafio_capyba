@@ -31,9 +31,13 @@ class CreateController {
     "Legendary",
   ];
 
-  CreateController(BuildContext context) {
+  void verify(BuildContext context) {
     isEmailVerified =
         Provider.of<AuthProvider>(context, listen: false).isEmailVerified;
+  }
+
+  CreateController(BuildContext context) {
+    verify(context);
     restrictedProvider =
         Provider.of<RestrictedProvider>(context, listen: false);
     homeProvider = Provider.of<HomeProvider>(context, listen: false);
@@ -60,7 +64,6 @@ class CreateController {
     }
 
     startLoading();
-
     try {
       if (type == "Home") {
         HomeModel home = HomeModel(
@@ -69,7 +72,7 @@ class CreateController {
           description: descriptionController.text,
           imageUrl: "",
         );
-        homeProvider.saveHome(home, photoUrl);
+        await homeProvider.saveHome(home, photoUrl);
       } else {
         RestrictedModel restricted = RestrictedModel(
           id: "",
@@ -78,7 +81,7 @@ class CreateController {
           imageUrl: "",
           rarity: rarity,
         );
-        restrictedProvider.saveRestricted(restricted, photoUrl);
+        await restrictedProvider.saveRestricted(restricted, photoUrl);
       }
       Navigator.of(context).pop();
     } catch (e) {

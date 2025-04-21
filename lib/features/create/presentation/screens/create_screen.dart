@@ -5,6 +5,7 @@ import 'package:desafio_capyba/shared/utils/tools.dart';
 import 'package:desafio_capyba/shared/widgets/button_widget.dart';
 import 'package:desafio_capyba/shared/widgets/circle_avatar_widget.dart';
 import 'package:desafio_capyba/shared/widgets/take_picture_widget.dart';
+import 'package:desafio_capyba/shared/widgets/verify_email_widget.dart';
 import 'package:flutter/material.dart';
 
 class CreateScreen extends StatefulWidget {
@@ -52,6 +53,7 @@ class _CreateScreenState extends State<CreateScreen> {
                               child: Form(
                                 key: _controller.formKey,
                                 child: Column(
+                                  spacing: 5,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,6 +110,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                       children: _controller.types.map((type) {
                                         return Expanded(
                                           child: RadioListTile<String>(
+                                            dense: true,
                                             title: Text(type),
                                             value: type,
                                             groupValue: _controller.type,
@@ -122,19 +125,25 @@ class _CreateScreenState extends State<CreateScreen> {
                                     ),
                                     Visibility(
                                       visible: _controller.type == "Restricted",
-                                      child: DropdownButton(
-                                        value: _controller.rarity,
-                                        items: _controller.rarities
-                                            .map((rarity) => DropdownMenuItem(
-                                                  value: rarity,
-                                                  child: Text(rarity),
-                                                ))
-                                            .toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _controller.rarity = value!;
-                                          });
-                                        },
+                                      child: Row(
+                                        spacing: 10,
+                                        children: [
+                                          Text("Raridade",style: AppTextStyles.style,),
+                                          DropdownButton(
+                                            value: _controller.rarity,
+                                            items: _controller.rarities
+                                                .map((rarity) => DropdownMenuItem(
+                                                      value: rarity,
+                                                      child: Text(rarity),
+                                                    ))
+                                                .toList(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _controller.rarity = value!;
+                                              });
+                                            },
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     ButtonWidget(
@@ -161,10 +170,10 @@ class _CreateScreenState extends State<CreateScreen> {
                     ),
                   ),
                 )
-              : Text(
-                  "Você precisa verificar seu e-mail antes de criar um registro.",
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.style,
+              : VerifyEmailWidget(
+                  onVerified: () => setState(() {
+                    _controller.verify(context);
+                  }),
                 ),
         ),
       ),

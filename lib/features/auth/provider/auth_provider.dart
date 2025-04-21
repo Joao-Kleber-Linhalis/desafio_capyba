@@ -56,6 +56,15 @@ class AuthProvider with ChangeNotifier {
     return _auth.authStateChanges();
   }
 
+  Future<void> reloadAuth() async {
+    try {
+      await _auth.currentUser?.reload();
+      notifyListeners();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   Future<void> signup(String email, String password) async {
     await _authenticate(email, password, false);
   }
@@ -68,5 +77,13 @@ class AuthProvider with ChangeNotifier {
     _userModel = UserModel.empty();
     await _auth.signOut();
     notifyListeners();
+  }
+
+  Future<void> sendEmailVerification() async {
+    try {
+      await _auth.currentUser?.sendEmailVerification();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }
