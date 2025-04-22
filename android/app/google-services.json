@@ -12,7 +12,20 @@
           "package_name": "com.example.desafio_capyba"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "508815627010-1ihr1k7gma28tf66pu53bs2jtjggmeih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.desafio_capyba",
+            "certificate_hash": "727a4916286a42b8e60c7c7ffae12063d222f58e"
+          }
+        },
+        {
+          "client_id": "508815627010-i6ri5hp7bqnac7i808uun0qinssutaio.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCFKtVAKXU3yuc5WdnzRi-eS1qiE7k_jPc"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508815627010-i6ri5hp7bqnac7i808uun0qinssutaio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -82,6 +82,24 @@ class AuthController {
     stopLoading();
   }
 
+  Future<void> loginWithGoogle(
+    BuildContext context,
+    VoidCallback startLoading,
+    VoidCallback stopLoading,
+  ) async {
+    startLoading();
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+
+    try {
+      await auth.loginWithGoogle();
+    } on AuthException catch (e) {
+      Tools.showErrorDialog(e.toString(), context);
+    } catch (_) {
+      Tools.showErrorDialog("Ocorreu um erro inesperado.", context);
+    }
+    stopLoading();
+  }
+
   void dispose() {
     passwordController.dispose();
     animationController.dispose();

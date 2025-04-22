@@ -110,17 +110,33 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
               if (_controller.isLoading)
                 const CircularProgressIndicator()
               else
-                ButtonWidget(
-                  onPressed: () => _controller.submit(
-                    context,
-                    () => setState(() => _controller.isLoading = true),
-                    () => setState(() => _controller.isLoading = false),
-                  ),
-                  isLoading: _controller.isLoading,
-                  child: Text(
-                    _controller.isLogin ? "Entrar" : "Registrar",
-                    style: AppTextStyles.style,
-                  ),
+                Column(
+                  children: [
+                    ButtonWidget(
+                      onPressed: () => _controller.submit(
+                        context,
+                        () => setState(() => _controller.isLoading = true),
+                        () => setState(() => _controller.isLoading = false),
+                      ),
+                      isLoading: _controller.isLoading,
+                      child: Text(
+                        _controller.isLogin ? "Entrar" : "Registrar",
+                        style: AppTextStyles.style,
+                      ),
+                    ),
+                    ButtonWidget(
+                      onPressed: () => _controller.loginWithGoogle(
+                        context,
+                        () => setState(() => _controller.isLoading = true),
+                        () => setState(() => _controller.isLoading = false),
+                      ),
+                      isLoading: _controller.isLoading,
+                      child: Text(
+                        "Entrar com Google",
+                        style: AppTextStyles.style,
+                      ),
+                    )
+                  ],
                 ),
               TextButton(
                 onPressed: () =>

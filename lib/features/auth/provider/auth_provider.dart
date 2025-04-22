@@ -1,6 +1,8 @@
 import 'package:desafio_capyba/core/exceptions/auth_exception.dart';
 import 'package:desafio_capyba/shared/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:flutter/material.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -40,10 +42,7 @@ class AuthProvider with ChangeNotifier {
         await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
       }
-      final user = _auth.currentUser;
-      if (user != null) {
-        _userModel = await UserModel.empty().copyWith(id: user.uid).getItem();
-      }
+      await loadUserModel();
       notifyListeners();
     } on FirebaseAuthException catch (e) {
       throw AuthException(e.code);
@@ -97,6 +96,30 @@ class AuthProvider with ChangeNotifier {
 
       _userModel = updatedUser;
       notifyListeners();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> loginWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        // O usuário cancelou o login
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await _auth.signInWithCredential(credential);
+
+      await loadUserModel();
     } catch (e) {
       debugPrint(e.toString());
     }
