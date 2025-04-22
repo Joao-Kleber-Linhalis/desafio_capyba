@@ -39,7 +39,7 @@ class _AuthFormWidgetState extends State<AuthFormWidget>
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
         padding: const EdgeInsets.all(16),
-        height: _controller.isLogin ? 310 : 400,
+        height: _controller.isLogin ? 350 : 400,
         width: Responsive.screenWidth(context) * 0.75,
         child: Form(
           key: _controller.formKey,
