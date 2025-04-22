@@ -1,3 +1,4 @@
+import 'package:desafio_capyba/shared/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class Rarity {
@@ -11,15 +12,22 @@ class Rarity {
   static Color getColorForRarity(String rarity) {
     switch (rarity) {
       case 'Common':
-        return Color(0xffCDD7CC);
+        return AppColors.commomColor;
       case 'Rare':
-        return Color(0xff419EFD);
+        return AppColors.rareColor;
       case 'Epic':
-        return Color(0xffDF58F7);
+        return AppColors.epicColor;
       case 'Legendary':
-        return Color(0xffFFA50D);
+        return AppColors.legendaryColor;
       default:
         return Colors.grey; // Para valores não reconhecidos
     }
   }
+
+  static List<Color> rarityColors = [
+    AppColors.commomColor,
+    AppColors.rareColor,
+    AppColors.epicColor,
+    AppColors.legendaryColor,
+  ];
 }

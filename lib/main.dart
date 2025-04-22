@@ -8,6 +8,7 @@ import 'package:desafio_capyba/features/presentation/auth_or_home_screen.dart';
 import 'package:desafio_capyba/features/presentation/splash_screen.dart';
 import 'package:desafio_capyba/features/profile/presentation/profile_screen.dart';
 import 'package:desafio_capyba/features/restricted/provider/restricted_provider.dart';
+import 'package:desafio_capyba/features/wheel/presentation/wheel_screen.dart';
 import 'package:desafio_capyba/firebase_options.dart';
 import 'package:desafio_capyba/shared/constants/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.PROFILE_SCREEN: (context) => const ProfileScreen(),
           AppRoutes.INDEX_SCREEN: (context) => const IndexScreen(),
           AppRoutes.CREATE_SCREEN: (context) => const CreateScreen(),
+          AppRoutes.WHEEL_SCREEN: (context) => const WheelScreen(),
         },
       ),
     );

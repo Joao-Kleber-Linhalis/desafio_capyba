@@ -13,4 +13,9 @@ class AppColors {
   static const Color searchBarColor = Color(0XFF717171);
 
   static const Color searchBarBackgroundColor = Color(0xffcee1ff);
+
+  static const Color commomColor = Color(0xffCDD7CC);
+  static const Color rareColor = Color(0xff419EFD);
+  static const Color epicColor = Color(0xffDF58F7);
+  static const Color legendaryColor = Color(0xffFFA50D);
 }

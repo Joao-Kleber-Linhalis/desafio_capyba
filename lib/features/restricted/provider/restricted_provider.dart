@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:desafio_capyba/core/services/firebase_service.dart';
 import 'package:desafio_capyba/features/restricted/models/restricted_model.dart';
@@ -79,5 +80,14 @@ class RestrictedProvider with ChangeNotifier {
     } catch (e) {
       debugPrint("Erro ao Salvar: ${e.toString()}");
     }
+  }
+
+  RestrictedModel getRandomItemByRarity(String rarity) {
+    final filteredItems =
+        _items.where((item) => item.rarity == rarity).toList();
+
+    final random = Random();
+    final index = random.nextInt(filteredItems.length);
+    return filteredItems[index];
   }
 }

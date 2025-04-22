@@ -7,4 +7,5 @@ class AppRoutes {
   static const INDEX_SCREEN = '/index-screen';
   static const PROFILE_SCREEN = '/profile-screen';
   static const CREATE_SCREEN = '/create-screen';
+  static const WHEEL_SCREEN = '/wheel-screen';
 }
