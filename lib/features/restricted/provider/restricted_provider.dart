@@ -82,10 +82,10 @@ class RestrictedProvider with ChangeNotifier {
     }
   }
 
-  RestrictedModel getRandomItemByRarity(String rarity) {
+  Future<RestrictedModel> getRandomItemByRarity(String rarity) async {
+    if (_items.isEmpty) await loadRestrictedList();
     final filteredItems =
         _items.where((item) => item.rarity == rarity).toList();
-
     final random = Random();
     final index = random.nextInt(filteredItems.length);
     return filteredItems[index];

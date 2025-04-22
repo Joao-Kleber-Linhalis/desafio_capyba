@@ -86,4 +86,19 @@ class AuthProvider with ChangeNotifier {
       debugPrint(e.toString());
     }
   }
+
+  Future<void> saveRestrictedItem(String itemId) async {
+    try {
+      if (_userModel.restrictedItems.contains(itemId)) return;
+
+      final updatedUser = await _userModel.copyWith(
+        restrictedItems: [..._userModel.restrictedItems, itemId],
+      ).save();
+
+      _userModel = updatedUser;
+      notifyListeners();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 }

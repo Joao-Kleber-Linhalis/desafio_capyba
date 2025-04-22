@@ -1,5 +1,7 @@
+import 'package:desafio_capyba/features/auth/provider/auth_provider.dart';
 import 'package:desafio_capyba/features/restricted/models/restricted_model.dart';
 import 'package:desafio_capyba/features/restricted/provider/restricted_provider.dart';
+import 'package:desafio_capyba/shared/constants/app_text_styles.dart';
 import 'package:desafio_capyba/shared/constants/rarity.dart';
 import 'package:desafio_capyba/shared/widgets/circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +22,14 @@ class _WheelDialogState extends State<WheelDialog> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final provider = Provider.of<RestrictedProvider>(context, listen: false);
-      setState(() {
-        _capyWin = provider.getRandomItemByRarity(widget.rarity);
-        _isLoading = false;
+      _capyWin =
+          await provider.getRandomItemByRarity(widget.rarity).then((value) {
+        setState(() {
+          _isLoading = false;
+        });
+        return value;
       });
     });
   }
@@ -74,10 +79,24 @@ class _WheelDialogState extends State<WheelDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               FittedBox(
+                child:
+                    Text("Parabéns! Você ganhou a", style: AppTextStyles.style),
+              ),
+              FittedBox(
                 child: Text(
                   _capyWin.title,
                   style: TextStyle(
                     fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Rarity.getColorForRarity(_capyWin.rarity),
+                  ),
+                ),
+              ),
+              FittedBox(
+                child: Text(
+                  _capyWin.rarity,
+                  style: TextStyle(
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: Rarity.getColorForRarity(_capyWin.rarity),
                   ),
@@ -90,7 +109,11 @@ class _WheelDialogState extends State<WheelDialog> {
               ),
               const SizedBox(height: 20),
               InkWell(
-                onTap: () {},
+                onTap: () async {
+                  await Provider.of<AuthProvider>(context, listen: false)
+                      .saveRestrictedItem(_capyWin.idModel);
+                  Navigator.of(context).pop();
+                },
                 child: const Icon(
                   Icons.save,
                   size: 40,
@@ -100,17 +123,15 @@ class _WheelDialogState extends State<WheelDialog> {
             ],
           ),
         ),
-        const Positioned(
+        Positioned(
           top: 0,
           left: 16,
           right: 16,
           child: CircleAvatar(
             backgroundColor: Colors.green,
             radius: 50,
-            child: Icon(
-              Icons.check,
-              color: Colors.white,
-              size: 60,
+            backgroundImage: AssetImage(
+              Rarity.getStoneForRarity(_capyWin.rarity),
             ),
           ),
         ),
